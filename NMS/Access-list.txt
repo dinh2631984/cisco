@@ -1,0 +1,163 @@
+I.	SWB-SERVER SG300:
+
+1.	Add new and apply an access-list:
+
+ip access-list extended restrict_ssh
+    permit  tcp  192.168.16.156 0.0.0.0 any any 22 ace-priority 1
+    permit  tcp  192.168.16.249 0.0.0.0 any any 22 ace-priority 10
+    permit  tcp  192.168.16.250 0.0.0.0 any any 22 ace-priority 20
+    permit  tcp  192.168.16.251 0.0.0.0 any any 22 ace-priority 30
+    permit  tcp  192.168.16.252 0.0.0.0 any any 22 ace-priority 40
+    permit  tcp  192.168.16.253 0.0.0.0 any any 22 ace-priority 50
+    permit  tcp  192.168.16.254 0.0.0.0 any any 22 ace-priority 60
+    permit  tcp  192.168.88.178 0.0.0.0 any any 22 ace-priority 70
+    permit  tcp  192.168.88.141 0.0.0.0 any any 22 ace-priority 80
+    permit  tcp  192.168.88.142 0.0.0.0 any any 22 ace-priority 90
+    permit  tcp  192.168.88.144 0.0.0.0 any any 22 ace-priority 100
+    permit  tcp  192.168.88.152 0.0.0.0 any any 22 ace-priority 110
+    permit  tcp  192.168.88.248 0.0.0.0 any any 22 ace-priority 120
+          
+          deny tcp any any  192.168.16.249 0.0.0.0 22  ace-priority 600
+          deny tcp any any  192.168.16.250 0.0.0.0 22  ace-priority 601
+          deny tcp any any  192.168.16.251 0.0.0.0 22  ace-priority 602
+          deny tcp any any  192.168.16.252 0.0.0.0 22  ace-priority 603
+          deny tcp any any  192.168.16.253 0.0.0.0 22  ace-priority 604
+          deny tcp any any  192.168.16.254 0.0.0.0 22  ace-priority 605
+
+          deny tcp any any  192.168.88.249 0.0.0.0 22  ace-priority 606
+          deny tcp any any  192.168.88.251 0.0.0.0 22  ace-priority 607
+          deny tcp any any  192.168.88.252 0.0.0.0 22  ace-priority 608
+          deny tcp any any  192.168.88.253 0.0.0.0 22  ace-priority 609
+          deny tcp any any  192.168.88.254 0.0.0.0 22  ace-priority 610
+
+          deny tcp any any  192.168.89.249 0.0.0.0 22  ace-priority 611
+          deny tcp any any  192.168.89.253 0.0.0.0 22  ace-priority 612
+          deny tcp any any  192.168.89.254 0.0.0.0 22  ace-priority 613
+
+          deny tcp any any  10.0.0.252 0.0.0.0 22  ace-priority 614
+          deny tcp any any  10.0.0.253 0.0.0.0 22  ace-priority 615
+          deny tcp any any  10.0.0.254 0.0.0.0 22  ace-priority 616
+
+          deny tcp any any  10.8.163.249 0.0.0.0 22  ace-priority 617
+          deny tcp any any  10.8.163.251 0.0.0.0 22  ace-priority 618
+          deny tcp any any  10.8.163.252 0.0.0.0 22  ace-priority 619
+          deny tcp any any  10.8.163.253 0.0.0.0 22  ace-priority 620
+          deny tcp any any  10.8.163.254 0.0.0.0 22  ace-priority 621
+!
+
+interface vlan 10
+service-acl input restrict_ssh default-action permit-any
+!
+interface vlan 16
+service-acl input restrict_ssh default-action permit-any
+!
+interface vlan 88
+service-acl input restrict_ssh default-action permit-any
+!
+interface vlan 89
+service-acl input restrict_ssh default-action permit-any
+!
+interface vlan 163
+service-acl input restrict_ssh default-action permit-any
+!
+
+
+2.	add new rule:
+
+interface vlan 10
+no service-acl input
+!
+interface vlan 16
+no service-acl input
+!
+interface vlan 88
+no service-acl input
+!
+interface vlan 89
+no service-acl input
+!
+interface vlan 163
+no service-acl input
+!
+
+ip access-list extended restrict_ssh
+  permit tcp 192.168.16.124 0.0.0.0 any any 22 ace-priority 2
+!
+
+
+interface vlan 10
+service-acl input restrict_ssh default-action permit-any
+!
+interface vlan 16
+service-acl input restrict_ssh default-action permit-any
+!
+interface vlan 88
+service-acl input restrict_ssh default-action permit-any
+!
+interface vlan 89
+service-acl input restrict_ssh default-action permit-any
+!
+interface vlan 163
+service-acl input restrict_ssh default-action permit-any
+!
+
+
+
+
+
+
+II.	OTHERS:
+1.	Add new and apply an access-list:
+
+ip access-list extended restrict_ssh
+          permit tcp host 192.168.16.156 any eq 22
+          permit tcp host 192.168.16.249 any eq 22
+          permit tcp host 192.168.16.250 any eq 22
+          permit tcp host 192.168.16.251 any eq 22
+          permit tcp host 192.168.16.252 any eq 22
+          permit tcp host 192.168.16.253 any eq 22
+          permit tcp host 192.168.16.254 any eq 22
+          permit tcp host 192.168.88.178 any eq 22
+          permit tcp host 192.168.88.141 any eq 22
+          permit tcp host 192.168.88.142 any eq 22
+          permit tcp host 192.168.88.144 any eq 22
+          permit tcp host 192.168.88.152 any eq 22
+          permit tcp host 192.168.88.248 any eq 22
+
+          deny tcp any host 192.168.16.249 eq 22
+          deny tcp any host 192.168.16.250 eq 22
+          deny tcp any host 192.168.16.251 eq 22
+          deny tcp any host 192.168.16.252 eq 22
+          deny tcp any host 192.168.16.253 eq 22
+          deny tcp any host 192.168.16.254 eq 22
+
+          deny tcp any host 192.168.88.249 eq 22
+          deny tcp any host 192.168.88.251 eq 22
+          deny tcp any host 192.168.88.252 eq 22
+          deny tcp any host 192.168.88.253 eq 22
+          deny tcp any host 192.168.88.254 eq 22
+
+          deny tcp any host 192.168.89.249 eq 22
+          deny tcp any host 192.168.89.253 eq 22
+          deny tcp any host 192.168.89.254 eq 22
+
+          deny tcp any host 10.0.0.252 eq 22
+          deny tcp any host 10.0.0.253 eq 22
+          deny tcp any host 10.0.0.254 eq 22
+
+          deny tcp any host 10.8.163.249 eq 22
+          deny tcp any host 10.8.163.251 eq 22
+          deny tcp any host 10.8.163.252 eq 22
+          deny tcp any host 10.8.163.253 eq 22
+          deny tcp any host 10.8.163.254 eq 22
+          permit ip any any
+!
+
+interface Vlan16
+ip access-group restrict_ssh in
+!
+
+
+2.	add new rule:
+ip access-list extended restrict_ssh
+         16 permit tcp host 192.168.16.124 any eq 22
